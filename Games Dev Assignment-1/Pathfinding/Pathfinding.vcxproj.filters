@@ -33,4 +33,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="dCoords.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="dMap.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="mCoords.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="mMap.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

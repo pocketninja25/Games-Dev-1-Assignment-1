@@ -1,19 +1,19 @@
 #include "CCoords.h"
 
 
-CCoords::CCoords(CCoords* iParent, int iX, int iY, int iCost)
+CCoords::CCoords(CCoords* piParent, int iX, int iY, int iCost)
 {
 	mX = iX;
 	mY = iY;
-	mParent = iParent;
+	mpParent = piParent;
 	mCost = iCost;
 }
 
 CCoords::~CCoords()
 {
-	if (mParent != 0)
+	if (mpParent != 0)
 	{
-		delete mParent;
+		delete mpParent;
 	}
 }
 
@@ -22,7 +22,7 @@ int CCoords::GetCost()
 	return mCost;
 }
 
-bool CCoords::Compare(CCoords* ptr1, CCoords* ptr2)
+bool CCoords::Compare(CCoords* p1, CCoords* p2)
 {
-	return (ptr1->mCost > ptr2->mCost);
+	return (p1->mCost > p2->mCost);
 }
