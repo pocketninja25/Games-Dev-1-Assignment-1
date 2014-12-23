@@ -7,11 +7,7 @@ COrderedList::COrderedList(CmpCoords iCompareFunction)
 
 COrderedList::~COrderedList()
 {
-	for (list<CCoords*>::iterator it = mList.begin(); it != mList.end(); it++)
-	{
-		CCoords* foo = *it;
-		delete foo;
-	}
+	
 }
 
 void COrderedList::Push(CCoords* pItem)
@@ -33,12 +29,19 @@ void COrderedList::Push(CCoords* pItem)
 	}
 }
 
-CCoords* COrderedList::GetBack()
+void COrderedList::Remove(CCoords* pItem)
 {
-	return mList.back();
+	mList.remove(pItem);
 }
 
-void COrderedList::PopBack()
+CCoords* COrderedList::PopFront()
 {
-	mList.pop_back();
+	CCoords* front = mList.front();
+	mList.pop_front();
+	return front;
+}
+
+bool COrderedList::Empty()
+{
+	return mList.empty();
 }
