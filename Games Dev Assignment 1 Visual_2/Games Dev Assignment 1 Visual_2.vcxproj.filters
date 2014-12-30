@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="Media\Cube.x">
+      <Filter>Resource Files\Model Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{383cb840-749c-42fa-8f9b-e3cf80e7afa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{8755fdbe-01a3-4329-aa9e-6693f96deb05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{d3ba7974-6a11-4ac5-845d-994bdf6602d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Map Files">
+      <UniqueIdentifier>{6f21df16-f789-466b-8cf6-4676ddf5f34e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Model Files">
+      <UniqueIdentifier>{11b8bee8-bbc8-4316-b818-de8d38b72291}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Texture Files">
+      <UniqueIdentifier>{934493c9-8f28-4f8a-a616-843754867f62}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="dCoords.txt">
+      <Filter>Resource Files\Map Files</Filter>
+    </Text>
+    <Text Include="dMap.txt">
+      <Filter>Resource Files\Map Files</Filter>
+    </Text>
+    <Text Include="mCoords.txt">
+      <Filter>Resource Files\Map Files</Filter>
+    </Text>
+    <Text Include="mMap.txt">
+      <Filter>Resource Files\Map Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Media\CueTip.jpg">
+      <Filter>Resource Files\Texture Files</Filter>
+    </Image>
+    <Image Include="Media\stone2.jpg">
+      <Filter>Resource Files\Texture Files</Filter>
+    </Image>
+    <Image Include="Media\tiles1.jpg">
+      <Filter>Resource Files\Texture Files</Filter>
+    </Image>
+    <Image Include="Media\wood1.jpg">
+      <Filter>Resource Files\Texture Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AStar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CCoords.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FloorTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLocationMarker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AStar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CCoords.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FloorTile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Games Dev Assignment 1 Visual_2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLocationMarker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
