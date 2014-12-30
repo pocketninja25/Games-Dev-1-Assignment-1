@@ -4,18 +4,24 @@
 #include <crtdbg.h>
 
 #include <iostream>
-#include "AStar.h"
 #include <string>
+#include "AStar.h"
+using namespace std;
 
 int Main()	//Additional Main() function to let STL containers go out of scope and 'clean up' memory before memory leak detection in main
 {
-	AStar* pathfinding = new AStar();
+	ifstream inStream;
+	ofstream outStream;
+
+	CAStar* pathfinding = new CAStar();
 
 	string mapFile = "mMap.txt";
 	string coordsFile = "mCoords.txt";
 	string outputFile = "output.txt";
 
-	if (!pathfinding->LoadMapAndCoords(mapFile, coordsFile))
+	bool loadSuccess = pathfinding->LoadMapAndCoords(mapFile, coordsFile, inStream);
+
+	if (!loadSuccess)
 	{
 		if (!pathfinding->MapLoaded())
 		{
@@ -29,11 +35,13 @@ int Main()	//Additional Main() function to let STL containers go out of scope an
 	else
 	{
 		pathfinding->DisplayMap();
+		bool pathFound = pathfinding->FindPath();
 
-		if (pathfinding->FindPath())
+		if (pathFound)
 		{
 			pathfinding->DisplayPath();
-			if (!pathfinding->SavePath(outputFile))
+			bool pathSaved = pathfinding->SavePath(outputFile, outStream);
+			if (!pathSaved)
 			{
 				cout << "Error saving to file " << outputFile << endl;
 			}
@@ -43,7 +51,6 @@ int Main()	//Additional Main() function to let STL containers go out of scope an
 			cout << "Pathfinding failed, there is no route between the provided coordinates" << endl;
 		}
 	}
-
 
 	delete pathfinding;
 	return 0;

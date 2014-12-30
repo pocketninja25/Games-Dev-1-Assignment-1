@@ -81,18 +81,20 @@
     <ClCompile Include="AStar.cpp" />
     <ClCompile Include="CCoords.cpp" />
     <ClCompile Include="CList.cpp" />
+    <ClCompile Include="CFloorTile.cpp" />
     <ClCompile Include="Main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AStar.h" />
-    <ClInclude Include="CCoords.h" />
-    <ClInclude Include="CList.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="dCoords.txt" />
     <Text Include="dMap.txt" />
     <Text Include="mCoords.txt" />
     <Text Include="mMap.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AStar.h" />
+    <ClInclude Include="CCoords.h" />
+    <ClInclude Include="CList.h" />
+    <ClInclude Include="CFloorTile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

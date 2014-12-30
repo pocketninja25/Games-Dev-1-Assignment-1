@@ -18,26 +18,18 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AStar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="CCoords.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AStar.cpp">
+    <ClCompile Include="CFloorTile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CCoords.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AStar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="dCoords.txt">
@@ -52,5 +44,19 @@
     <Text Include="mMap.txt">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AStar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CCoords.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CFloorTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

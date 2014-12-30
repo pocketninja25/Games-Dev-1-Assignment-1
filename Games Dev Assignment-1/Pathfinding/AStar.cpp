@@ -1,6 +1,6 @@
 #include "AStar.h"
 
-void AStar::GetSuccessors(CCoords* pCurrent, CCoords* pSuccessors[4])
+void CAStar::GetSuccessors(CCoords* pCurrent, CCoords* pSuccessors[4])
 {
 	//Generates up to 4 new successors (providing they are possible) - otherwise returned successor is 0
 	int x = pCurrent->GetX();
@@ -43,7 +43,7 @@ void AStar::GetSuccessors(CCoords* pCurrent, CCoords* pSuccessors[4])
 	}
 }
 
-AStar::AStar()
+CAStar::CAStar()
 {
 	mpOpenList = new COrderedList(CCoords::Compare);
 	mpGrid[g_MAP_COLS][g_MAP_ROWS] = { NULL };
@@ -54,7 +54,7 @@ AStar::AStar()
 	mpEndNode = NULL;
 }
 
-AStar::~AStar()
+CAStar::~CAStar()
 {
 	delete mpOpenList;
 	for (int i = 0; i < g_MAP_COLS; i++)
@@ -66,16 +66,18 @@ AStar::~AStar()
 	}
 }
 
-bool AStar::LoadMapAndCoords(string iMapFile, string iCoordsFile)
+bool CAStar::LoadMapAndCoords(string iMapFile, string iCoordsFile, std::ifstream &fileStream)
 {
 	//Attempts to load the map and coords from file, returning false if it was unssucessful at loading
 
 	/************Map File************/
 
 	//Create filestream
-	ifstream file = ifstream(iMapFile);		///////////////////////////////////////////////////////////////Unusual bug - trying to open this file stream in Visual Studio in release mode crashes, but not in release mode .exe
+	fileStream.close();
+	fileStream.clear();
+	fileStream.open(iMapFile);
 
-	if (!file)	//If there is a problem with the filestream (failed to load file etc)
+	if (!fileStream)	//If there is a problem with the filestream (failed to load file etc)
 	{
 		mMapLoaded = false;
 		return false;
@@ -89,7 +91,7 @@ bool AStar::LoadMapAndCoords(string iMapFile, string iCoordsFile)
 	char inChar = NULL;			//Storage for the character from the file
 	int convertedVal = NULL;	//Storage for the character being converted to an integer
 
-	while (file && file >> inChar)	//Read from the file - will prevent the end of file marker being read as a number
+	while (fileStream && fileStream >> inChar)	//Read from the file - will prevent the end of file marker being read as a number
 	{
 		convertedVal = inChar - '0';	//Convert the character read to an integer
 
@@ -103,17 +105,16 @@ bool AStar::LoadMapAndCoords(string iMapFile, string iCoordsFile)
 			col = 0;
 			row--;
 		}
-
 	}
-	file.close();
+	fileStream.close();
+	fileStream.clear();
 	mMapLoaded = true;
 
 	/************Coords File************/
-
 	//Attempts to load the start and end coordinates from file, returning false if it was unssucessful at loading
-	file.open(iCoordsFile);
+	fileStream.open(iCoordsFile);
 
-	if (!file)	//If there is a problem with the filestream (failed to load file etc)
+	if (!fileStream)	//If there is a problem with the filestream (failed to load file etc)
 	{
 		mCoordsLoaded = false;
 		return false;
@@ -125,26 +126,27 @@ bool AStar::LoadMapAndCoords(string iMapFile, string iCoordsFile)
 	int y = 0;
 
 	//Read in start coordinates and set the type of the read-in node to 'nodeStart'
-	file >> inChX >> inChY;
+	fileStream >> inChX >> inChY;
 	x = inChX - '0';
 	y = inChY - '0';
 	mpGrid[x][y]->SetType(nodeStart);
 	mpStartNode = mpGrid[x][y];
 
 	//Read in end coordinates and set the type of the read-in node to 'nodeEnd'
-	file >> inChX >> inChY;
+	fileStream >> inChX >> inChY;
 	x = inChX - '0';
 	y = inChY - '0';
 	mpGrid[x][y]->SetType(nodeEnd);
 	mpEndNode = mpGrid[x][y];
 
-	file.close();
+	fileStream.close();
+	fileStream.clear();
 
 	mCoordsLoaded = true;
 	return true;
 }
 
-bool AStar::FindPath()
+bool CAStar::FindPath()
 {
 	bool goalFound = false;				//Whether or not a path to the end has been found
 	if (mMapLoaded && mCoordsLoaded)
@@ -204,7 +206,7 @@ bool AStar::FindPath()
 	return goalFound;
 }
 
-bool AStar::DisplayMap()
+bool CAStar::DisplayMap()
 {
 	if (mMapLoaded)	//Can't output if there is no map to output
 	{
@@ -229,7 +231,23 @@ bool AStar::DisplayMap()
 	return false;
 }
 
-void AStar::DisplayPath()
+//bool CAStar::CreateMapModels(CFloorTile* models[g_MAP_COLS][g_MAP_ROWS], IMesh* tileMesh)
+//{
+//	if (mMapLoaded)
+//	{
+//		for (int i = 0; i < g_MAP_COLS; i++)
+//		{
+//			for (int j = 0; j < g_MAP_ROWS; j++)
+//			{
+//				models[i][j] = new CFloorTile(tileMesh, (EFloorType)mpGrid[i][j]->GetIndividualCost(), i, j);
+//			}
+//		}
+//		return true;
+//	}
+//	return false;
+//}
+
+void CAStar::DisplayPath()
 {
 	if (mPathFound)	//If a path from start to end has been found
 	{
@@ -243,43 +261,47 @@ void AStar::DisplayPath()
 	}
 }
 
-bool AStar::SavePath(string fileName)
+bool CAStar::SavePath(string fileName, std::ofstream &fileStream)
 {
 	if (mPathFound)
 	{
-		ofstream outFile = ofstream(fileName);
+		fileStream.close();
+		fileStream.clear();
+		fileStream.open(fileName);
 
-		if (!outFile)
+		if (!fileStream)
 		{
 			return false;
 		}
 
 		CCoords* pCurrent = mpStartNode;
 
-		while (outFile && pCurrent != NULL)
+		while (fileStream && pCurrent != NULL)
 		{
 			//Output Coordinates to file
-			outFile << pCurrent->GetX() << ' ' << pCurrent->GetY() << endl;
+			fileStream << pCurrent->GetX() << ' ' << pCurrent->GetY() << endl;
 			//Set new current value for next pass (next coordinate in sequence)
 			pCurrent = pCurrent->GetChild();
 		}
-		outFile.close();
+
+		fileStream.close();
+		fileStream.clear();
 		return true;
 	}
 	return false;
 }
 
-bool AStar::MapLoaded()
+bool CAStar::MapLoaded()
 {
 	return mMapLoaded;
 }
 
-bool AStar::CoordsLoaded()
+bool CAStar::CoordsLoaded()
 {
 	return mCoordsLoaded;
 }
 
-bool AStar::PathFound()
+bool CAStar::PathFound()
 {
 	return mPathFound;
 }
