@@ -1,10 +1,10 @@
 #include "FloorTile.h"
 
-const string g_TileSkinNames[floorSize] = { "tiles1.jpg", "stone2.jpg", "wood1.jpg", "CueTip.jpg" };
+const std::string g_TileSkinNames[floorSize] = { "tiles1.jpg", "stone2.jpg", "wood1.jpg", "CueTip.jpg" };
 
 const float CFloorTile::m_MODEL_WIDTH = 10.0f;
 
-CFloorTile::CFloorTile(IMesh* iMesh, EFloorType iType, int iX, int iY)
+CFloorTile::CFloorTile(tle::IMesh* iMesh, EFloorType iType, int iX, int iY)
 {
 	mMesh = iMesh;
 	mType = iType;

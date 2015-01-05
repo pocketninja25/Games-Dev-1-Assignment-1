@@ -67,7 +67,7 @@ CAStar::~CAStar()
 
 }
 
-bool CAStar::LoadMapAndCoords(string iMapFile, string iCoordsFile, std::ifstream &fileStream)
+bool CAStar::LoadMapAndCoords(std::string iMapFile, std::string iCoordsFile, std::ifstream &fileStream)
 {
 	//Attempts to load the map and coords from file, returning false if it was unssucessful at loading
 
@@ -262,7 +262,7 @@ void CAStar::DisplayPath()
 	}
 }
 
-bool CAStar::SavePath(string fileName, std::ofstream &fileStream)
+bool CAStar::SavePath(std::string fileName, std::ofstream &fileStream)
 {
 	if (mPathFound)
 	{
