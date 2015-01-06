@@ -46,6 +46,7 @@ void CAStar::GetSuccessors(CCoords* pCurrent, CCoords* pSuccessors[4])
 CAStar::CAStar()
 {
 	mpOpenList = new COrderedList(CCoords::Compare);
+
 	mpGrid[g_MAP_COLS][g_MAP_ROWS] = { NULL };
 	mMapLoaded = false;
 	mCoordsLoaded = false;
@@ -63,7 +64,8 @@ CAStar::~CAStar()
 			delete mpGrid[i][j];
 		}
 	}
-	delete mpOpenList;
+
+	delete (mpOpenList);
 
 }
 
@@ -157,7 +159,15 @@ bool CAStar::FindPath()
 		//Returns whether or not a path could be found
 
 		mpStartNode->TrySetParent(NULL);			//Set the parent of the start node to null
-		mpStartNode->TrySetManhatDist(mpEndNode);	//Set (calculate) the manhattan distance of the start node with the end node
+		//mpStartNode->TrySetManhatDist(mpEndNode);	//Set (calculate) the manhattan distance of the start node with the end node
+		for (int x = 0; x < g_MAP_COLS; x++)
+		{
+			for (int y = 0; y < g_MAP_ROWS; y++)
+			{
+				mpGrid[x][y]->TrySetManhatDist(mpEndNode);
+			}
+		}
+
 		mpOpenList->Push(mpStartNode);
 
 		//Create pointers for use in algorithm

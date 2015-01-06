@@ -20,7 +20,7 @@ int Main()
 	std::ofstream outFileStream;
 	
 	CAStar* pathfinding = new CAStar();
-	pathfinding->LoadMapAndCoords("mMap.txt", "mCoords.txt", inFileStream);
+	pathfinding->LoadMapAndCoords("dMap.txt", "dCoords.txt", inFileStream);
 	pathfinding->DisplayMap();
 	pathfinding->FindPath();
 	pathfinding->DisplayPath();
