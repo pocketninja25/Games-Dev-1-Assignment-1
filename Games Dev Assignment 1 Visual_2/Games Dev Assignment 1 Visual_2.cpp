@@ -75,7 +75,7 @@ int Main()
 	delete startMarker;
 	delete endMarker;
 	delete pathfinding;
-
+	
 	// Delete the 3D engine now we are finished with it
 	gameEngine->Delete();
 

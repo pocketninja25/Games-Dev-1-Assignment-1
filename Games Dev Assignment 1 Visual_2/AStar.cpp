@@ -46,13 +46,20 @@ void CAStar::GetSuccessors(CCoords* pCurrent, CCoords* pSuccessors[4])
 CAStar::CAStar()
 {
 	mpOpenList = new COrderedList(CCoords::Compare);
-
-	mpGrid[g_MAP_COLS][g_MAP_ROWS] = { NULL };
+	mpGrid[g_MAP_COLS][g_MAP_ROWS];
+	for (int i = 0; i < g_MAP_COLS; i++)
+	{
+		for (int j = 0; j < g_MAP_ROWS; j++)
+		{
+			mpGrid[i][j] = NULL;
+		}
+	}
 	mMapLoaded = false;
 	mCoordsLoaded = false;
 	mPathFound = false;
 	mpStartNode = NULL;
 	mpEndNode = NULL;
+
 }
 
 CAStar::~CAStar()

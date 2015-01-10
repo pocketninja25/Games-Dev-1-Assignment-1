@@ -19,7 +19,7 @@ private:
 public:
 	COrderedList(CmpCoords iCompareFunction);	//Constructor w/ pointer to the compare function for CCoords class
 	~COrderedList();							//Destructor
-
+	
 	bool Push(CCoords* pItem);		//Push an item onto its proper place on the list based on the compare function
 	void Remove(CCoords* pItem);	//Remove all instances of this item from the list (using the list remove function)
 
