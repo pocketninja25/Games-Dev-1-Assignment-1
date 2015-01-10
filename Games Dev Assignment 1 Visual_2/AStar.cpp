@@ -1,5 +1,28 @@
 #include "AStar.h"
 
+void CAStar::ClearMap()
+{
+	if (mMapLoaded)	//Check if a map is already loaded, and if so, unload it
+	{
+		mpOpenList->Clear();
+		mClosedList.clear();
+
+		for (int i = 0; i < g_MAP_COLS; i++)
+		{
+			for (int j = 0; j < g_MAP_ROWS; j++)
+			{
+				delete mpGrid[i][j];
+			}
+		}
+		mpStartNode = NULL;
+		mpEndNode = NULL;
+		mMapLoaded = false;
+		mCoordsLoaded = false;
+		mPathFound = false;
+
+	}
+}
+
 void CAStar::GetSuccessors(CCoords* pCurrent, CCoords* pSuccessors[4])
 {
 	//Generates up to 4 new successors (providing they are possible) - otherwise returned successor is 0
@@ -64,6 +87,8 @@ CAStar::CAStar()
 
 CAStar::~CAStar()
 {
+	delete (mpOpenList);
+	
 	for (int i = 0; i < g_MAP_COLS; i++)
 	{
 		for (int j = 0; j < g_MAP_ROWS; j++)
@@ -72,13 +97,15 @@ CAStar::~CAStar()
 		}
 	}
 
-	delete (mpOpenList);
-
+	//start node and end node are pointers to the start and end nodes in the mpGrid list - these are deleted by the grid pointers
+	
 }
 
 bool CAStar::LoadMapAndCoords(std::string iMapFile, std::string iCoordsFile, std::ifstream &fileStream)
 {
 	//Attempts to load the map and coords from file, returning false if it was unssucessful at loading
+
+	ClearMap();		//If a map is currently loaded, clear the data
 
 	/************Map File************/
 

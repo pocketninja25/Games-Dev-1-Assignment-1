@@ -38,6 +38,9 @@ CCoords::CCoords(int iX, int iY, ETraversalCost iIndividualCost, ENodeType iType
 CCoords::~CCoords()
 {
 	//Destructor
+	
+	//Parent and child pointers are dealt with externally (this class does not create the content of the pointers, so does not destroy them)
+
 }
 
 int CCoords::GetCost()

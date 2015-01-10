@@ -120,12 +120,6 @@ copy "C:\ProgramData\TL-Engine\3rd Party\TL-Xtreme\shader\*.*" "$(OutDir)" &gt; 
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="dCoords.txt" />
-    <Text Include="dMap.txt" />
-    <Text Include="mCoords.txt" />
-    <Text Include="mMap.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="Media\CueTip.jpg" />
     <Image Include="Media\stone2.jpg" />
     <Image Include="Media\tiles1.jpg" />
@@ -145,6 +139,14 @@ copy "C:\ProgramData\TL-Engine\3rd Party\TL-Xtreme\shader\*.*" "$(OutDir)" &gt; 
     <ClCompile Include="CLocationMarker.cpp" />
     <ClCompile Include="FloorTile.cpp" />
     <ClCompile Include="Games Dev Assignment 1 Visual_2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Media\Maps\dCoords.txt" />
+    <Text Include="Media\Maps\dMap.txt" />
+    <Text Include="Media\Maps\kCoords.txt" />
+    <Text Include="Media\Maps\kMap.txt" />
+    <Text Include="Media\Maps\mCoords.txt" />
+    <Text Include="Media\Maps\mMap.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

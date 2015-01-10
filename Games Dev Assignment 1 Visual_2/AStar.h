@@ -26,6 +26,7 @@ private:
 	bool mCoordsLoaded;
 	bool mPathFound;
 
+	void ClearMap();
 	void GetSuccessors(CCoords* pCurrent, CCoords* pSuccessors[4]);
 
 public:

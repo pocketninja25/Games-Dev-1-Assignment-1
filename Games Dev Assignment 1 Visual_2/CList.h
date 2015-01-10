@@ -22,6 +22,7 @@ public:
 	
 	bool Push(CCoords* pItem);		//Push an item onto its proper place on the list based on the compare function
 	void Remove(CCoords* pItem);	//Remove all instances of this item from the list (using the list remove function)
+	void Clear();					//Remove all items from the list
 
 	CCoords* PopFront();			//Pop an item from the list and return a pointer to the popped item
 

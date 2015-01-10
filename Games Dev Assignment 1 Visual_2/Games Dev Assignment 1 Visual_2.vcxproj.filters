@@ -27,20 +27,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="dCoords.txt">
-      <Filter>Resource Files\Map Files</Filter>
-    </Text>
-    <Text Include="dMap.txt">
-      <Filter>Resource Files\Map Files</Filter>
-    </Text>
-    <Text Include="mCoords.txt">
-      <Filter>Resource Files\Map Files</Filter>
-    </Text>
-    <Text Include="mMap.txt">
-      <Filter>Resource Files\Map Files</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="Media\CueTip.jpg">
       <Filter>Resource Files\Texture Files</Filter>
     </Image>
@@ -90,5 +76,25 @@
     <ClCompile Include="CLocationMarker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Media\Maps\dCoords.txt">
+      <Filter>Resource Files\Map Files</Filter>
+    </Text>
+    <Text Include="Media\Maps\dMap.txt">
+      <Filter>Resource Files\Map Files</Filter>
+    </Text>
+    <Text Include="Media\Maps\kCoords.txt">
+      <Filter>Resource Files\Map Files</Filter>
+    </Text>
+    <Text Include="Media\Maps\kMap.txt">
+      <Filter>Resource Files\Map Files</Filter>
+    </Text>
+    <Text Include="Media\Maps\mCoords.txt">
+      <Filter>Resource Files\Map Files</Filter>
+    </Text>
+    <Text Include="Media\Maps\mMap.txt">
+      <Filter>Resource Files\Map Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

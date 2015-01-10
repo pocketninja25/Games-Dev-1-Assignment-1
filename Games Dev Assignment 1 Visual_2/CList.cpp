@@ -9,6 +9,8 @@ COrderedList::COrderedList(CmpCoords iCompareFunction)
 COrderedList::~COrderedList()
 {
 	//Destructor
+	
+	//This class does not create the contents of the list so does not clean them up
 }
 
 bool COrderedList::Push(CCoords* pItem)
@@ -43,6 +45,12 @@ void COrderedList::Remove(CCoords* pItem)
 {
 	//Remove all instances of this item from the list (using the list remove function)
 	mList.remove(pItem);
+}
+
+void COrderedList::Clear()
+{
+	//Empties the list
+	mList.clear();
 }
 
 CCoords* COrderedList::PopFront()
