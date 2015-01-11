@@ -76,6 +76,8 @@ int Main()
 		/**** Set up your scene here ****/
 
 		IMesh* cubeMesh = gameEngine->LoadMesh("cube.x");
+		IMesh* actor = gameEngine->LoadMesh("sierra.x");
+
 		CFloorTile* floorModels[g_MAP_COLS][g_MAP_ROWS];
 		pathfinding->CreateMapModels(floorModels, cubeMesh);
 

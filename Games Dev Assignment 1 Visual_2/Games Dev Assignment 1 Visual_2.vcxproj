@@ -127,6 +127,7 @@ copy "C:\ProgramData\TL-Engine\3rd Party\TL-Xtreme\shader\*.*" "$(OutDir)" &gt; 
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AStar.h" />
+    <ClInclude Include="CActor.h" />
     <ClInclude Include="CCoords.h" />
     <ClInclude Include="CList.h" />
     <ClInclude Include="CLocationMarker.h" />
