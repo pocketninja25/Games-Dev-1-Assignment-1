@@ -1,10 +1,10 @@
 #include "FloorTile.h"
 
 const std::string g_TileSkinNames[floorSize][listSize] = { 
-	{ "tiles1 - open.jpg",	"tiles1 - closed.jpg",	"tiles1.jpg",	},
-	{ "stone2 - open.jpg",	"stone2 - closed.jpg",	"stone2.jpg"	},
-	{ "wood1 - open.jpg",	"wood1 - closed.jpg",	"wood1.jpg"		},
-	{ "CueTip - open.jpg",	"CueTip - closed.jpg",	"CueTip.jpg"		} };
+	{ "tiles1 - open.jpg",	"tiles1 - closed.jpg",	"tiles1.jpg",	"tiles1 - path.jpg"	},
+	{ "stone2 - open.jpg",	"stone2 - closed.jpg",	"stone2.jpg",	"stone2 - path.jpg"	},
+	{ "wood1 - open.jpg",	"wood1 - closed.jpg",	"wood1.jpg"	,	"wood1 - path.jpg"	},
+	{ "CueTip - open.jpg",	"CueTip - closed.jpg",	"CueTip.jpg",	"CueTip - path.jpg"	} };
 
 const float CFloorTile::m_MODEL_WIDTH = 10.0f;
 

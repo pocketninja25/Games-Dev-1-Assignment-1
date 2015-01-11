@@ -6,7 +6,7 @@ using namespace tle;
 
 enum EFloorType { floorWall, floorOpen, floorWood, floorWater, floorSize };	//floor size is not a valid state but is used as a const value to create arrays compatible with the enum values as an index
 //Used to create a list of file names for each of the floor types
-enum EListState { listOpen, listClosed, listNone, listSize };
+enum EListState { listOpen, listClosed, listNone, listPath, listSize };
 
 class CFloorTile
 {

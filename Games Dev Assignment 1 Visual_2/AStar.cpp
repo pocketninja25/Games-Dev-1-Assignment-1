@@ -421,6 +421,20 @@ void CAStar::ViewListChanges(CFloorTile* pModels[g_MAP_COLS][g_MAP_ROWS])
 
 		pModels[x][y]->SetListState(listOpen);
 	}
+
+	if (mPathState == pathFinished)
+	{
+		CCoords* pCurrent = mpEndNode;	//Start current off as the object this function was called from
+		while (pCurrent != NULL)
+		{
+			x = pCurrent->GetX();
+			y = pCurrent->GetY();
+
+			pModels[x][y]->SetListState(listPath);
+			//Make current it's own parent so it's parent's child can be updated
+			pCurrent = pCurrent->GetParent();
+		} 
+	}
 }
 
 bool CAStar::MapLoaded()
