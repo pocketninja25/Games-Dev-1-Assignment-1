@@ -9,10 +9,12 @@
 #include "AStar.h"
 #include "FloorTile.h"
 #include "CLocationMarker.h"
+#include "CActor.h"
 using namespace tle;
 
 const EKeyCode g_QUIT = Key_Escape;
 const EKeyCode g_CONTINUE = Key_Return;
+const EKeyCode g_NEXTPLY = Key_Space;
 
 float g_FrameTime = 0.0f;
 
@@ -38,7 +40,7 @@ int Main()
 	
 	bool loadNewMap = true;		//Indicates whether a new map will be loaded upon engine closure
 
-	CAStar* pathfinding = new CAStar();
+	CAStar* pPathfinding = new CAStar();
 
 	while (loadNewMap)
 	{
@@ -46,10 +48,11 @@ int Main()
 		string mapSuffix = "Map.txt";
 		string CoordsSuffix = "Coords.txt";
 		string prefix = "";
+		string outputFile = CombineStrings(mapFolder, "Output.txt");
 
 		prefix = GetMapPrefix();
 
-		while (!pathfinding->LoadMapAndCoords(CombineStrings(mapFolder, prefix, mapSuffix), CombineStrings(mapFolder, prefix, CoordsSuffix), inFileStream))
+		while (!pPathfinding->LoadMapAndCoords(CombineStrings(mapFolder, prefix, mapSuffix), CombineStrings(mapFolder, prefix, CoordsSuffix), inFileStream))
 		{
 			cout << "ERROR: Map does not exist " << endl << endl;
 			mapSuffix = "Map.txt";
@@ -60,81 +63,99 @@ int Main()
 		}
 
 		cout << endl;
-		pathfinding->DisplayMap();
-		pathfinding->FindPath();
-		pathfinding->DisplayPath();
-		cout << endl << endl;
-		pathfinding->SavePath("output.txt", outFileStream);
+		pPathfinding->DisplayMap();
+		//pPathfinding->FindPath();	//Full version of find path
+		//pPathfinding->DisplayPath();
+		//cout << endl << endl;
+		//pPathfinding->SavePath(outputFile, outFileStream);
 
 		// Create a 3D engine (using TLX engine here) and open a window for it
-		I3DEngine* gameEngine = New3DEngine(kTLX);
-		gameEngine->StartWindowed();
+		I3DEngine* pGameEngine = New3DEngine(kTLX);
+		pGameEngine->StartWindowed();
 
 		// Add default folder for meshes and other media
-		gameEngine->AddMediaFolder(".//Media");
-
+		pGameEngine->AddMediaFolder(".//Media");
 		/**** Set up your scene here ****/
 
-		IMesh* cubeMesh = gameEngine->LoadMesh("cube.x");
-		IMesh* actor = gameEngine->LoadMesh("sierra.x");
+		IMesh* pCubeMesh = pGameEngine->LoadMesh("cube.x");
+		IMesh* pActorMesh = pGameEngine->LoadMesh("sphere.x");
 
-		CFloorTile* floorModels[g_MAP_COLS][g_MAP_ROWS];
-		pathfinding->CreateMapModels(floorModels, cubeMesh);
+		CFloorTile* pFloorModels[g_MAP_COLS][g_MAP_ROWS];
+		pPathfinding->CreateMapModels(pFloorModels, pCubeMesh);
 
-		CLocationMarker* startMarker = new CLocationMarker(cubeMesh, markerGreen, pathfinding->GetStartX(), pathfinding->GetStartY());
-		CLocationMarker* endMarker = new CLocationMarker(cubeMesh, markerRed, pathfinding->GetEndX(), pathfinding->GetEndY());
+		CLocationMarker* pStartMarker = new CLocationMarker(pCubeMesh, markerGreen, pPathfinding->GetStartX(), pPathfinding->GetStartY());
+		CLocationMarker* pEndMarker = new CLocationMarker(pCubeMesh, markerRed, pPathfinding->GetEndX(), pPathfinding->GetEndY());
 
-		ICamera* debugCam = gameEngine->CreateCamera(kFPS, 45.0f, 105.0f, 45.0f);
-		debugCam->SetMovementSpeed(25.0f);
-		debugCam->SetRotationSpeed(50.0f);
-		debugCam->RotateX(90.0f);
+		CActor* pPathFollower = NULL;
 
-
+		ICamera* pDebugCam = pGameEngine->CreateCamera(kFPS, 45.0f, 105.0f, 45.0f);
+		pDebugCam->SetMovementSpeed(25.0f);
+		pDebugCam->SetRotationSpeed(50.0f);
+		pDebugCam->RotateX(90.0f);
 
 		// The main game loop, repeat until engine is stopped
-		while (gameEngine->IsRunning())
+		while (pGameEngine->IsRunning())
 		{
 			// Draw the scene
-			gameEngine->DrawScene();
-			g_FrameTime = gameEngine->Timer();
+			pGameEngine->DrawScene();
+			g_FrameTime = pGameEngine->Timer();
 
 			/**** Update your scene each frame here ****/
-			if (gameEngine->KeyHit(g_QUIT))
+			if (pGameEngine->KeyHit(g_QUIT))
 			{
-				gameEngine->Stop();
+				pGameEngine->Stop();
 				loadNewMap = false;
 			}
-			if (gameEngine->KeyHit(g_CONTINUE))
+			if (pGameEngine->KeyHit(g_CONTINUE))
 			{
-				gameEngine->Stop();
+				pGameEngine->Stop();
 			}
 
-			if (pathfinding->PathFound())
+			if (pGameEngine->KeyHit(g_NEXTPLY))
 			{
-
+				if (pPathfinding->GetPathState() == pathUnfinished)
+				{
+					pPathfinding->UnfoldNextPly();
+					pPathfinding->ViewListChanges(pFloorModels);
+					if (pPathfinding->GetPathState() != pathUnfinished)	//If after unfolding ply of search the path is complete (or impossible) save and output the result
+					{
+						pPathfinding->DisplayPath();
+					}
+					if (pPathfinding->GetPathState() == pathFinished)
+					{
+						pPathfinding->SavePath(outputFile, outFileStream);
+						pPathFollower = new CActor(pActorMesh, inFileStream, outputFile, 3.0f);
+					}
+				}
+			}
+			if (pPathFollower != NULL)	//Once the pathfollower is created (path has been created)
+			{
+				//Follow the path - update the follower
 			}
 
+			
 		}	//End of game Loop
 
 
-		gameEngine->RemoveCamera(debugCam);
-		delete startMarker;
-		delete endMarker;
+		pGameEngine->RemoveCamera(pDebugCam);
+		delete pStartMarker;
+		delete pEndMarker;
+		delete pPathFollower;
 
 		for (int i = 0; i < g_MAP_COLS; i++)
 		{
 			for (int j = 0; j < g_MAP_ROWS; j++)
 			{
-				delete floorModels[i][j];
+				delete pFloorModels[i][j];
 			}
 		}
 
-		gameEngine->RemoveMesh(cubeMesh);
-		gameEngine->Delete();
+		pGameEngine->RemoveMesh(pCubeMesh);
+		pGameEngine->Delete();
 
 	}	//End of new map load loop
 	
-	delete pathfinding;
+	delete pPathfinding;
 
 	return 0;
 }

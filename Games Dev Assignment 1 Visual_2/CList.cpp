@@ -66,3 +66,13 @@ bool COrderedList::IsEmpty()
 	//Returns whether or not the list is empty
 	return mList.empty();
 }
+
+list<CCoords*>::iterator COrderedList::Begin()
+{
+	return mList.begin();
+}
+
+list<CCoords*>::iterator COrderedList::End()
+{
+	return mList.end();
+}

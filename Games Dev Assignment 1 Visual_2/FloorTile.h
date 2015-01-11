@@ -6,19 +6,22 @@ using namespace tle;
 
 enum EFloorType { floorWall, floorOpen, floorWood, floorWater, floorSize };	//floor size is not a valid state but is used as a const value to create arrays compatible with the enum values as an index
 //Used to create a list of file names for each of the floor types
+enum EListState { listOpen, listClosed, listNone, listSize };
+
 class CFloorTile
 {
 private:
-	IMesh* mMesh;
-	IModel* mModel;
+	IMesh* mpMesh;
+	IModel* mpModel;
 	EFloorType mType;
 
 	static const float m_MODEL_WIDTH;
 	int mX;
 	int mY;
+	EListState mListState;
 
 public:
-	CFloorTile(IMesh* iMesh, EFloorType iType, int iX, int iY);
+	CFloorTile(IMesh* piMesh, EFloorType iType, int iX, int iY);
 	~CFloorTile();
 
 	void GetPosition(float &xPos, float &yPos, float &zPos);
@@ -28,6 +31,9 @@ public:
 
 	static float GetWorldXAt(int xCoord);
 	static float GetWorldZAt(int yCoord);
+
+	void SetListState(EListState newState);
+
 };
 
 #endif

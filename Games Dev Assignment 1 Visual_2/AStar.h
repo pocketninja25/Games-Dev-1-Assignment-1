@@ -12,6 +12,8 @@ using namespace std;
 const int g_MAP_COLS = 10;							//Number of Columns (X Coordinates of the map)
 const int g_MAP_ROWS = 10;							//Number of Rows (Y Coordinates of the map)
 
+enum EPathState { pathUnfinished, pathFinished, pathImpossible };
+
 class CAStar
 {
 private:
@@ -24,7 +26,7 @@ private:
 
 	bool mMapLoaded;
 	bool mCoordsLoaded;
-	bool mPathFound;
+	EPathState mPathState;
 
 	void ClearMap();
 	void GetSuccessors(CCoords* pCurrent, CCoords* pSuccessors[4]);
@@ -37,18 +39,20 @@ public:
 	bool LoadMapAndCoords(string iMapFile, string iCoordsFile, std::ifstream &fileStream);
 
 	//Algorithm
-	bool FindPath();
+	EPathState FindPath();
+	bool UnfoldNextPly();
 
 	//Output functions
 	bool DisplayMap();
-	bool CreateMapModels(CFloorTile* models[g_MAP_COLS][g_MAP_ROWS], IMesh* tileMesh);
 	void DisplayPath();
 	bool SavePath(string fileName, std::ofstream &fileStream);
+	bool CreateMapModels(CFloorTile* pModels[g_MAP_COLS][g_MAP_ROWS], IMesh* pTileMesh);
+	void ViewListChanges(CFloorTile* pModels[g_MAP_COLS][g_MAP_ROWS]);
 
 	//Get functions
 	bool MapLoaded();
 	bool CoordsLoaded();
-	bool PathFound();
+	EPathState GetPathState();
 	int GetStartX();
 	int GetStartY();
 	int GetEndX();

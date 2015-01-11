@@ -135,6 +135,7 @@ copy "C:\ProgramData\TL-Engine\3rd Party\TL-Xtreme\shader\*.*" "$(OutDir)" &gt; 
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="CActor.cpp" />
     <ClCompile Include="CCoords.cpp" />
     <ClCompile Include="CList.cpp" />
     <ClCompile Include="CLocationMarker.cpp" />
@@ -148,6 +149,8 @@ copy "C:\ProgramData\TL-Engine\3rd Party\TL-Xtreme\shader\*.*" "$(OutDir)" &gt; 
     <Text Include="Media\Maps\kMap.txt" />
     <Text Include="Media\Maps\mCoords.txt" />
     <Text Include="Media\Maps\mMap.txt" />
+    <Text Include="Media\Maps\pCoords.txt" />
+    <Text Include="Media\Maps\pMap.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

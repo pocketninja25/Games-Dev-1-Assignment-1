@@ -18,7 +18,7 @@ void CAStar::ClearMap()
 		mpEndNode = NULL;
 		mMapLoaded = false;
 		mCoordsLoaded = false;
-		mPathFound = false;
+		mPathState = pathUnfinished;
 
 	}
 }
@@ -79,7 +79,7 @@ CAStar::CAStar()
 	}
 	mMapLoaded = false;
 	mCoordsLoaded = false;
-	mPathFound = false;
+	mPathState = pathUnfinished;
 	mpStartNode = NULL;
 	mpEndNode = NULL;
 
@@ -179,11 +179,23 @@ bool CAStar::LoadMapAndCoords(std::string iMapFile, std::string iCoordsFile, std
 	fileStream.close();
 	fileStream.clear();
 
+	mpStartNode->TrySetParent(NULL);			//Set the parent of the start node to null
+	//mpStartNode->TrySetManhatDist(mpEndNode);	//Set (calculate) the manhattan distance of the start node with the end node
+	for (int x = 0; x < g_MAP_COLS; x++)
+	{
+		for (int y = 0; y < g_MAP_ROWS; y++)
+		{
+			mpGrid[x][y]->TrySetManhatDist(mpEndNode);
+		}
+	}
+
+	mpOpenList->Push(mpStartNode);
+
 	mCoordsLoaded = true;
 	return true;
 }
 
-bool CAStar::FindPath()
+EPathState CAStar::FindPath()
 {
 	bool goalFound = false;				//Whether or not a path to the end has been found
 	if (mMapLoaded && mCoordsLoaded)
@@ -191,22 +203,14 @@ bool CAStar::FindPath()
 		//Performs a pathfinding algorithm (A*) to find the optimal route from the start and finish points specified in the pGrid array
 		//When successful builds the path from the child pointer to the end pointer which can be followed using start pointer's member variable child)
 		//Returns whether or not a path could be found
-
-		mpStartNode->TrySetParent(NULL);			//Set the parent of the start node to null
-		//mpStartNode->TrySetManhatDist(mpEndNode);	//Set (calculate) the manhattan distance of the start node with the end node
-		for (int x = 0; x < g_MAP_COLS; x++)
-		{
-			for (int y = 0; y < g_MAP_ROWS; y++)
-			{
-				mpGrid[x][y]->TrySetManhatDist(mpEndNode);
-			}
-		}
-
-		mpOpenList->Push(mpStartNode);
-
+		
 		//Create pointers for use in algorithm
 		CCoords* pCurrent = NULL;
-		CCoords* pSuccessors[4] = { NULL };	//The 4 nodes generated from the current node
+		CCoords* pSuccessors[4];
+		for (int i = 0; i < 4; i++)
+		{
+			pSuccessors[i] = NULL;
+		}
 		bool parentChanged = false;			//Whether the set parent was successful
 
 		do	//Keep going until a goal is found or there cannot be a goal (open list is empty)
@@ -244,11 +248,69 @@ bool CAStar::FindPath()
 		if (goalFound)
 		{
 			//Assemble path
+			mPathState = pathFinished;
 			mpEndNode->GeneratePath();
 		}
+		else
+		{
+			mPathState = pathImpossible;
+		}
 	}
-	mPathFound = goalFound;
-	return goalFound;
+
+	return mPathState;
+}
+
+//Unfolds a single ply of the pathfinding search and return if the search has finished
+bool CAStar::UnfoldNextPly()
+{
+	if (mMapLoaded && mCoordsLoaded)
+	{
+		//Performs a pathfinding algorithm (A*) to find the optimal route from the start and finish points specified in the pGrid array
+		//When successful builds the path from the child pointer to the end pointer which can be followed using start pointer's member variable child)
+		//Returns whether or not a path could be found
+
+		//Create pointers for use in algorithm
+		CCoords* pCurrent = mpOpenList->PopFront();
+
+		if (pCurrent == mpEndNode)
+		{
+			mPathState = pathFinished;
+			mpEndNode->GeneratePath();
+		}
+		else //Current is not the goal
+		{
+			CCoords* pSuccessors[4];	//The 4 nodes generated from the current node
+			for (int i = 0; i < 4; i++)
+			{
+				pSuccessors[i] = NULL;
+			}
+			GetSuccessors(pCurrent, pSuccessors);	//Get pointers to the successor nodes
+			for (int i = 0; i < 4; i++)	//For each successor that can match 'current'
+			{
+				bool parentChanged = false;			//Whether the set parent was successful
+
+				if (pSuccessors[i] != NULL)	//If the rule was successfully applied (is pointing at a successor node)
+				{
+					parentChanged = pSuccessors[i]->TrySetParent(pCurrent);	//parentSet now reflects whether the parent changed or not
+					if (parentChanged)
+					{
+						//Remove instances of this pointer from the closed list
+						mClosedList.remove(pSuccessors[i]);
+						//Remove from the open list (if there) so that it can be inserted into the correct position without sorting the whole list
+						mpOpenList->Remove(pSuccessors[i]);
+						//Add to the open list (in the correct position)
+						mpOpenList->Push(pSuccessors[i]);
+					}
+				}
+			}
+			mClosedList.push_back(pCurrent);
+		}
+	}
+	if (mpOpenList->IsEmpty())
+	{
+		mPathState = pathImpossible;
+	}
+	return mPathState;
 }
 
 bool CAStar::DisplayMap()
@@ -276,25 +338,10 @@ bool CAStar::DisplayMap()
 	return false;
 }
 
-bool CAStar::CreateMapModels(CFloorTile* models[g_MAP_COLS][g_MAP_ROWS], IMesh* tileMesh)
-{
-	if (mMapLoaded)
-	{
-		for (int i = 0; i < g_MAP_COLS; i++)
-		{
-			for (int j = 0; j < g_MAP_ROWS; j++)
-			{
-				models[i][j] = new CFloorTile(tileMesh, (EFloorType)mpGrid[i][j]->GetIndividualCost(), i, j);
-			}
-		}
-		return true;
-	}
-	return false;
-}
 
 void CAStar::DisplayPath()
 {
-	if (mPathFound)	//If a path from start to end has been found
+	if (mPathState == pathFinished)	//If a path from start to end has been found
 	{
 		CCoords* pCurrent = mpStartNode;
 		cout << "Pathfinding Solution - Nodes from beginning to end" << endl;
@@ -304,11 +351,15 @@ void CAStar::DisplayPath()
 			pCurrent = pCurrent->GetChild();
 		}
 	}
+	else
+	{
+		cout << "Path could not be found" << endl;
+	}
 }
 
 bool CAStar::SavePath(std::string fileName, std::ofstream &fileStream)
 {
-	if (mPathFound)
+	if (mPathState == pathFinished)
 	{
 		fileStream.close();
 		fileStream.clear();
@@ -336,6 +387,42 @@ bool CAStar::SavePath(std::string fileName, std::ofstream &fileStream)
 	return false;
 }
 
+bool CAStar::CreateMapModels(CFloorTile* pModels[g_MAP_COLS][g_MAP_ROWS], IMesh* pTileMesh)
+{
+	if (mMapLoaded)
+	{
+		for (int i = 0; i < g_MAP_COLS; i++)
+		{
+			for (int j = 0; j < g_MAP_ROWS; j++)
+			{
+				pModels[i][j] = new CFloorTile(pTileMesh, (EFloorType)mpGrid[i][j]->GetIndividualCost(), i, j);
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
+void CAStar::ViewListChanges(CFloorTile* pModels[g_MAP_COLS][g_MAP_ROWS])
+{
+	int x;
+	int y;
+	for (list<CCoords*>::iterator it = mClosedList.begin(); it != mClosedList.end(); it++)
+	{
+		x = (*it)->GetX();
+		y = (*it)->GetY();
+
+		pModels[x][y]->SetListState(listClosed);
+	}
+	for (list<CCoords*>::iterator it = mpOpenList->Begin(); it != mpOpenList->End(); it++)
+	{
+		x = (*it)->GetX();
+		y = (*it)->GetY();
+
+		pModels[x][y]->SetListState(listOpen);
+	}
+}
+
 bool CAStar::MapLoaded()
 {
 	return mMapLoaded;
@@ -346,9 +433,9 @@ bool CAStar::CoordsLoaded()
 	return mCoordsLoaded;
 }
 
-bool CAStar::PathFound()
+EPathState CAStar::GetPathState()
 {
-	return mPathFound;
+	return mPathState;
 }
 
 int CAStar::GetStartX()

@@ -5,7 +5,7 @@
 #include <list>
 using namespace std;
 
-typedef bool (*CmpCoords)(CCoords* ptr1, CCoords* ptr2);
+typedef bool (*CmpCoords)(CCoords* pPtr1, CCoords* pPtr2);
 
 class COrderedList
 {
@@ -27,6 +27,10 @@ public:
 	CCoords* PopFront();			//Pop an item from the list and return a pointer to the popped item
 
 	bool IsEmpty();					//Returns whether or not the list is empty
+
+	list<CCoords*>::iterator Begin();	//Returns an iterator to the first item of the list - would rather not do this, but is neccessary to show which blocks are on the list
+	list<CCoords*>::iterator End();		//Returns an iterator to the last item of the list
 };
+
 
 #endif

@@ -1,13 +1,18 @@
 #include "FloorTile.h"
 
-const std::string g_TileSkinNames[floorSize] = { "tiles1.jpg", "stone2.jpg", "wood1.jpg", "CueTip.jpg" };
+const std::string g_TileSkinNames[floorSize][listSize] = { 
+	{ "tiles1 - open.jpg",	"tiles1 - closed.jpg",	"tiles1.jpg",	},
+	{ "stone2 - open.jpg",	"stone2 - closed.jpg",	"stone2.jpg"	},
+	{ "wood1 - open.jpg",	"wood1 - closed.jpg",	"wood1.jpg"		},
+	{ "CueTip - open.jpg",	"CueTip - closed.jpg",	"CueTip.jpg"		} };
 
 const float CFloorTile::m_MODEL_WIDTH = 10.0f;
 
-CFloorTile::CFloorTile(tle::IMesh* iMesh, EFloorType iType, int iX, int iY)
+CFloorTile::CFloorTile(tle::IMesh* piMesh, EFloorType iType, int iX, int iY)
 {
-	mMesh = iMesh;
+	mpMesh = piMesh;
 	mType = iType;
+	mListState = listNone;
 	mX = iX;
 	mY = iY;
 
@@ -23,37 +28,37 @@ CFloorTile::CFloorTile(tle::IMesh* iMesh, EFloorType iType, int iX, int iY)
 	xPos += mX * m_MODEL_WIDTH;			//Offset the x position by the x coordinate of the tile
 	zPos += mY * m_MODEL_WIDTH;			//Offset the z position by the y coordinate of the tile (tile coordinate Y is global coordinate Z)
 
-	mModel = mMesh->CreateModel(xPos, yPos, zPos);
-	mModel->SetSkin(g_TileSkinNames[mType]);
-	mModel->Scale(0.9f);
+	mpModel = mpMesh->CreateModel(xPos, yPos, zPos);
+	mpModel->SetSkin(g_TileSkinNames[mType][mListState]);
+	mpModel->Scale(0.9f);
 }
 
 CFloorTile::~CFloorTile()
 {
-	mMesh->RemoveModel(mModel);
+	mpMesh->RemoveModel(mpModel);
 }
 
 
 void CFloorTile::GetPosition(float &xPos, float &yPos, float &zPos)
 {
-	xPos = mModel->GetX();
-	yPos = mModel->GetY();
-	zPos = mModel->GetZ();
+	xPos = mpModel->GetX();
+	yPos = mpModel->GetY();
+	zPos = mpModel->GetZ();
 }
 
 float CFloorTile::GetWorldX()
 {
-	return mModel->GetX();
+	return mpModel->GetX();
 }
 
 float CFloorTile::GetWorldY()
 {
-	return mModel->GetY();
+	return mpModel->GetY();
 }
 
 float CFloorTile::GetWorldZ()
 {
-	return mModel->GetZ();
+	return mpModel->GetZ();
 }
 
 float CFloorTile::GetWorldXAt(int xCoord)
@@ -66,4 +71,11 @@ float CFloorTile::GetWorldZAt(int yCoord)
 {
 											//Centre the position on 0.0f
 	return yCoord * m_MODEL_WIDTH;			//Offset the y position by the y coordinate of the tile
+}
+
+void CFloorTile::SetListState(EListState newState)
+{
+	mListState = newState;
+	mpModel->SetSkin(g_TileSkinNames[mType][mListState]);
+
 }

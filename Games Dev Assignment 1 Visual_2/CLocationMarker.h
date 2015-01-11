@@ -11,13 +11,13 @@ enum EMarkerColour { markerGreen, markerRed, markerGrey, markerSize };
 class CLocationMarker
 {
 private:
-	IMesh* mMesh;
-	IModel* mModel;
+	IMesh* mpMesh;
+	IModel* mpModel;
 
 	EMarkerColour mColour;
 
 public:
-	CLocationMarker(IMesh* iMesh, EMarkerColour iColour, int xCoord, int yCoord);
+	CLocationMarker(IMesh* piMesh, EMarkerColour iColour, int xCoord, int yCoord);
 	~CLocationMarker();
 
 };

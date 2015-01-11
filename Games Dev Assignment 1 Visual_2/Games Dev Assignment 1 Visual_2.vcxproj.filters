@@ -79,6 +79,9 @@
     <ClCompile Include="CLocationMarker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Media\Maps\dCoords.txt">
@@ -97,6 +100,12 @@
       <Filter>Resource Files\Map Files</Filter>
     </Text>
     <Text Include="Media\Maps\mMap.txt">
+      <Filter>Resource Files\Map Files</Filter>
+    </Text>
+    <Text Include="Media\Maps\pCoords.txt">
+      <Filter>Resource Files\Map Files</Filter>
+    </Text>
+    <Text Include="Media\Maps\pMap.txt">
       <Filter>Resource Files\Map Files</Filter>
     </Text>
   </ItemGroup>
