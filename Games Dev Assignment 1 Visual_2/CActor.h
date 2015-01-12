@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 #include "FloorTile.h"
+#include "Collisions.h"
 using namespace tle;
 
 //This class is not complete - it needs to do movement
@@ -31,17 +32,21 @@ private:
 	IModel* mpModel;
 
 	vector<SCoord*> mPath;
-	int mPathPosition;
+	unsigned int mPathPosition;
 	bool mPathLoaded;
+
+	CSphereCollision2* mpCollisionRadius;
 
 	bool mIsMoving;
 
 public:
-	CActor(IMesh* piMesh, std::ifstream &fileStream, string pathFile, float modelHeight);
+	CActor(IMesh* piMesh, std::ifstream &fileStream, string pathFile, float modelHeight, IMesh* collisionMarkerMesh);
 	~CActor();
 
 	bool LoadPath(std::ifstream &fileStream, string pathFile);
 	bool IsPathLoaded();
+
+	CSphereCollision2* GetCollision();
 
 	void Update(float frameTime);
 

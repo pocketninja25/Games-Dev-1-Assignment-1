@@ -1,6 +1,6 @@
 #include "CActor.h"
 
-CActor::CActor(IMesh* piMesh, std::ifstream &fileStream, string pathFile, float modelHeight)
+CActor::CActor(IMesh* piMesh, std::ifstream &fileStream, string pathFile, float modelHeight, IMesh* pCollisionMarkerMesh)
 {
 	mpMesh = piMesh;
 
@@ -14,6 +14,8 @@ CActor::CActor(IMesh* piMesh, std::ifstream &fileStream, string pathFile, float 
 
 	mpModel->Scale(0.35f);
 
+	mpCollisionRadius = new CSphereCollision2(pCollisionMarkerMesh, Vector2(mpModel->GetX(), mpModel->GetZ()), 0.2f, 2.5f);
+
 	mIsMoving = false;
 }
 
@@ -25,6 +27,8 @@ CActor::~CActor()
 	{
 		delete (*it);
 	}
+	//Delete the collision radius
+	delete mpCollisionRadius;
 
 }
 
@@ -71,6 +75,11 @@ bool CActor::LoadPath(std::ifstream &fileStream, string pathFile)
 	mPathLoaded = true;
 	return true;
 
+}
+
+CSphereCollision2* CActor::GetCollision()
+{
+	return mpCollisionRadius;
 }
 
 void CActor::Update(float frameTime)

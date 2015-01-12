@@ -1,6 +1,6 @@
 #include "FloorTile.h"
 
-const std::string g_TileSkinNames[floorSize][listSize] = { 
+const std::string g_TILESKINNAMES[floorSize][listSize] = { 
 	{ "tiles1 - open.jpg",	"tiles1 - closed.jpg",	"tiles1.jpg",	"tiles1 - path.jpg"	},
 	{ "stone2 - open.jpg",	"stone2 - closed.jpg",	"stone2.jpg",	"stone2 - path.jpg"	},
 	{ "wood1 - open.jpg",	"wood1 - closed.jpg",	"wood1.jpg"	,	"wood1 - path.jpg"	},
@@ -29,7 +29,7 @@ CFloorTile::CFloorTile(tle::IMesh* piMesh, EFloorType iType, int iX, int iY)
 	zPos += mY * m_MODEL_WIDTH;			//Offset the z position by the y coordinate of the tile (tile coordinate Y is global coordinate Z)
 
 	mpModel = mpMesh->CreateModel(xPos, yPos, zPos);
-	mpModel->SetSkin(g_TileSkinNames[mType][mListState]);
+	mpModel->SetSkin(g_TILESKINNAMES[mType][mListState]);
 	mpModel->Scale(0.9f);
 }
 
@@ -76,6 +76,6 @@ float CFloorTile::GetWorldZAt(int yCoord)
 void CFloorTile::SetListState(EListState newState)
 {
 	mListState = newState;
-	mpModel->SetSkin(g_TileSkinNames[mType][mListState]);
+	mpModel->SetSkin(g_TILESKINNAMES[mType][mListState]);
 
 }

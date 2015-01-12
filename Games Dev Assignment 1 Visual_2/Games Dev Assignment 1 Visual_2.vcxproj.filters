@@ -25,19 +25,67 @@
     <Filter Include="Resource Files\Texture Files">
       <UniqueIdentifier>{934493c9-8f28-4f8a-a616-843754867f62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Texture Files\Closed Textures">
+      <UniqueIdentifier>{3d619026-86ff-4f46-9c75-8b9e9082a50d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Texture Files\Open Textures">
+      <UniqueIdentifier>{646b5aa9-81b1-4e33-b5af-67cbf7988b9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Texture Files\Path Textures">
+      <UniqueIdentifier>{44cdb166-48e9-4c90-85cd-2cffcdcf1d5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Texture Files\Default Textures">
+      <UniqueIdentifier>{b8341c25-c2df-4778-b63f-5f3c4579639e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Media\CueTip - closed.jpg">
+      <Filter>Resource Files\Texture Files\Closed Textures</Filter>
+    </Image>
+    <Image Include="Media\stone2 - closed.jpg">
+      <Filter>Resource Files\Texture Files\Closed Textures</Filter>
+    </Image>
+    <Image Include="Media\tiles1 - closed.jpg">
+      <Filter>Resource Files\Texture Files\Closed Textures</Filter>
+    </Image>
+    <Image Include="Media\wood1 - closed.jpg">
+      <Filter>Resource Files\Texture Files\Closed Textures</Filter>
+    </Image>
+    <Image Include="Media\CueTip - open.jpg">
+      <Filter>Resource Files\Texture Files\Open Textures</Filter>
+    </Image>
+    <Image Include="Media\CueTip - path.jpg">
+      <Filter>Resource Files\Texture Files\Path Textures</Filter>
+    </Image>
     <Image Include="Media\CueTip.jpg">
-      <Filter>Resource Files\Texture Files</Filter>
+      <Filter>Resource Files\Texture Files\Default Textures</Filter>
+    </Image>
+    <Image Include="Media\stone2 - open.jpg">
+      <Filter>Resource Files\Texture Files\Open Textures</Filter>
+    </Image>
+    <Image Include="Media\stone2 - path.jpg">
+      <Filter>Resource Files\Texture Files\Path Textures</Filter>
     </Image>
     <Image Include="Media\stone2.jpg">
-      <Filter>Resource Files\Texture Files</Filter>
+      <Filter>Resource Files\Texture Files\Default Textures</Filter>
+    </Image>
+    <Image Include="Media\tiles1 - open.jpg">
+      <Filter>Resource Files\Texture Files\Open Textures</Filter>
+    </Image>
+    <Image Include="Media\tiles1 - path.jpg">
+      <Filter>Resource Files\Texture Files\Path Textures</Filter>
     </Image>
     <Image Include="Media\tiles1.jpg">
-      <Filter>Resource Files\Texture Files</Filter>
+      <Filter>Resource Files\Texture Files\Default Textures</Filter>
+    </Image>
+    <Image Include="Media\wood1 - open.jpg">
+      <Filter>Resource Files\Texture Files\Open Textures</Filter>
+    </Image>
+    <Image Include="Media\wood1 - path.jpg">
+      <Filter>Resource Files\Texture Files\Path Textures</Filter>
     </Image>
     <Image Include="Media\wood1.jpg">
-      <Filter>Resource Files\Texture Files</Filter>
+      <Filter>Resource Files\Texture Files\Default Textures</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +105,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CActor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Conversions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -80,6 +137,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Collisions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Conversions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

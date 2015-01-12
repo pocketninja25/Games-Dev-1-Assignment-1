@@ -120,9 +120,21 @@ copy "C:\ProgramData\TL-Engine\3rd Party\TL-Xtreme\shader\*.*" "$(OutDir)" &gt; 
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Media\CueTip - closed.jpg" />
+    <Image Include="Media\CueTip - open.jpg" />
+    <Image Include="Media\CueTip - path.jpg" />
     <Image Include="Media\CueTip.jpg" />
+    <Image Include="Media\stone2 - closed.jpg" />
+    <Image Include="Media\stone2 - open.jpg" />
+    <Image Include="Media\stone2 - path.jpg" />
     <Image Include="Media\stone2.jpg" />
+    <Image Include="Media\tiles1 - closed.jpg" />
+    <Image Include="Media\tiles1 - open.jpg" />
+    <Image Include="Media\tiles1 - path.jpg" />
     <Image Include="Media\tiles1.jpg" />
+    <Image Include="Media\wood1 - closed.jpg" />
+    <Image Include="Media\wood1 - open.jpg" />
+    <Image Include="Media\wood1 - path.jpg" />
     <Image Include="Media\wood1.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -131,7 +143,10 @@ copy "C:\ProgramData\TL-Engine\3rd Party\TL-Xtreme\shader\*.*" "$(OutDir)" &gt; 
     <ClInclude Include="CCoords.h" />
     <ClInclude Include="CList.h" />
     <ClInclude Include="CLocationMarker.h" />
+    <ClInclude Include="Collisions.h" />
+    <ClInclude Include="Conversions.h" />
     <ClInclude Include="FloorTile.h" />
+    <ClInclude Include="Vector2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStar.cpp" />
@@ -139,8 +154,11 @@ copy "C:\ProgramData\TL-Engine\3rd Party\TL-Xtreme\shader\*.*" "$(OutDir)" &gt; 
     <ClCompile Include="CCoords.cpp" />
     <ClCompile Include="CList.cpp" />
     <ClCompile Include="CLocationMarker.cpp" />
+    <ClCompile Include="Collisions.cpp" />
+    <ClCompile Include="Conversions.cpp" />
     <ClCompile Include="FloorTile.cpp" />
     <ClCompile Include="Games Dev Assignment 1 Visual_2.cpp" />
+    <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Media\Maps\dCoords.txt" />

@@ -14,7 +14,9 @@ using namespace tle;
 
 const EKeyCode g_QUIT = Key_Escape;
 const EKeyCode g_CONTINUE = Key_Return;
-const EKeyCode g_NEXTPLY = Key_Space;
+const EKeyCode g_NEXTPLY = Key_N;
+const EKeyCode g_QUICKPLY = Key_Space;
+const EKeyCode g_TOGGLEMARKERS = Key_M;
 
 float g_FrameTime = 0.0f;
 
@@ -44,19 +46,17 @@ int Main()
 
 	while (loadNewMap)
 	{
-		string mapFolder = ".//Media//Maps//";
-		string mapSuffix = "Map.txt";
-		string CoordsSuffix = "Coords.txt";
+		const string MAP_FOLDER = ".//Media//Maps//";
+		const string MAP_SUFFIX = "Map.txt";
+		const string COORDS_SUFFIX = "Coords.txt";
 		string prefix = "";
-		string outputFile = CombineStrings(mapFolder, "Output.txt");
+		string outputFile = CombineStrings(MAP_FOLDER, "Output.txt");
 
 		prefix = GetMapPrefix();
 
-		while (!pPathfinding->LoadMapAndCoords(CombineStrings(mapFolder, prefix, mapSuffix), CombineStrings(mapFolder, prefix, CoordsSuffix), inFileStream))
+		while (!pPathfinding->LoadMapAndCoords(CombineStrings(MAP_FOLDER, prefix, MAP_SUFFIX), CombineStrings(MAP_FOLDER, prefix, COORDS_SUFFIX), inFileStream))
 		{
 			cout << "ERROR: Map does not exist " << endl << endl;
-			mapSuffix = "Map.txt";
-			CoordsSuffix = "Coords.txt";
 			prefix = "";
 
 			prefix = GetMapPrefix();
@@ -79,6 +79,7 @@ int Main()
 
 		IMesh* pCubeMesh = pGameEngine->LoadMesh("cube.x");
 		IMesh* pActorMesh = pGameEngine->LoadMesh("sphere.x");
+		IMesh* pDummyMesh = pGameEngine->LoadMesh("dummy.x");
 
 		CFloorTile* pFloorModels[g_MAP_COLS][g_MAP_ROWS];
 		pPathfinding->CreateMapModels(pFloorModels, pCubeMesh);
@@ -87,7 +88,7 @@ int Main()
 		CLocationMarker* pEndMarker = new CLocationMarker(pCubeMesh, markerRed, pPathfinding->GetEndX(), pPathfinding->GetEndY());
 
 		CActor* pPathFollower = NULL;
-
+		
 		ICamera* pDebugCam = pGameEngine->CreateCamera(kFPS, 45.0f, 105.0f, 45.0f);
 		pDebugCam->SetMovementSpeed(25.0f);
 		pDebugCam->SetRotationSpeed(50.0f);
@@ -111,7 +112,7 @@ int Main()
 				pGameEngine->Stop();
 			}
 
-			if (pGameEngine->KeyHit(g_NEXTPLY))
+			if (pGameEngine->KeyHit(g_NEXTPLY) || pGameEngine->KeyHeld(g_QUICKPLY))
 			{
 				if (pPathfinding->GetPathState() == pathUnfinished)
 				{
@@ -124,13 +125,18 @@ int Main()
 					if (pPathfinding->GetPathState() == pathFinished)
 					{
 						pPathfinding->SavePath(outputFile, outFileStream);
-						pPathFollower = new CActor(pActorMesh, inFileStream, outputFile, 3.0f);
+						pPathFollower = new CActor(pActorMesh, inFileStream, outputFile, 3.0f, pDummyMesh);
 					}
 				}
 			}
 			if (pPathFollower != NULL)	//Once the pathfollower is created (path has been created)
 			{
 				//Follow the path - update the follower
+				if (pGameEngine->KeyHit(g_TOGGLEMARKERS))
+				{
+					pPathFollower->GetCollision()->ToggleMarkers();
+				}
+				pPathFollower->Update(g_FrameTime);
 			}
 
 			
