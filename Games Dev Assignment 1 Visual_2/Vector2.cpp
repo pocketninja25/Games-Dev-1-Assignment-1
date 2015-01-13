@@ -70,7 +70,6 @@ bool IsInfront2(Vector2 facingVector, Vector2 distanceVector) //Provide the faci
 	if (dotProd > 0)		//V dotted with W > 0 if angle between is < 90, this means the 'looked for' object is in front of the 'looking' object
 	{
 		return true;
-
 	}
 
 	return false;
